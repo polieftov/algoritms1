@@ -1,0 +1,13 @@
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.csprojAssemblyReference.cache
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.AssemblyInfoInputs.cache
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.AssemblyInfo.cs
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.csproj.CoreCompileInputs.cache
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.exe
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.deps.json
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.runtimeconfig.json
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.runtimeconfig.dev.json
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.dll
+C:\Users\Номе\source\repos\LabWork1\bin\Debug\netcoreapp3.1\LabWork1.pdb
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.dll
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.pdb
+C:\Users\Номе\source\repos\LabWork1\obj\Debug\netcoreapp3.1\LabWork1.genruntimeconfig.cache
