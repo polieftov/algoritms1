@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LabWork1
 {
-    class BigInt : ICloneable
+    class BigInt
     {
         public char sign; // +, -
         public List<int> number;
@@ -114,13 +114,13 @@ namespace LabWork1
                 }
             }
             if (enlarge == 1) resNum.Insert(0, 1);
-            //res.number = resNum;
             res.DeleteNuls();
             return res;
         }
 
         private static BigInt Reduce(BigInt a, BigInt b)//вычитает из большего меньшее два бигинта
         {
+            if (a == b) return Zero;
             if (b.sign == '-') return Addition(a, b);
             a.DeleteNuls(); b.DeleteNuls(); 
             b.EqualizeTheDigits(a.number.Count);
@@ -138,26 +138,19 @@ namespace LabWork1
             }
             res.DeleteNuls();
             return res;
-
         }
 
-        public object Clone()
-        {
-            return new BigInt { number = new List<int>(this.number), sign = this.sign };
-        }
-
-        public static BigInt Mod(BigInt a1, BigInt b) // ИСПРАВЛЕНО деление по модулю, дает всегда неотрицательный остаток
+        public static BigInt Mod(BigInt a1, BigInt b) // деление по модулю
         {
             var a = new BigInt('+', new List<int>(a1.number));
             a.DeleteNuls(); b.DeleteNuls();
             if (a < b) return a;
-            else if (a == b) return new BigInt('+', new List<int> { 0 });
+            else if (a == b) return Zero;
             else
             {
 
                 while (a > b)
-                {
-                    
+                {                  
                     var bSDopisNuls = new BigInt(b.sign, new List<int>(b.number));
 
                     BigInt newraz;
@@ -168,13 +161,13 @@ namespace LabWork1
                     else
                         newraz = razn;
                     var rabRazr = new BigInt("10").Pow(newraz);//3
-                    var newrazRes = b * rabRazr.MultOnDigit(1);
-                    for (var i = 1; b * rabRazr.MultOnDigit(i) < a; i++)
+                    var newrazRes = b * rabRazr;
+                    for (var i = 1; b * rabRazr.MultOnDigit(i) <= a; ++i)
                     {
                         var r = rabRazr.MultOnDigit(i);
                         newrazRes = r;
                     }//4
-                    if (a > newrazRes * b)
+                    if (a >= newrazRes * b)
                     {
                         if (a - newrazRes * b < b)
                         {
@@ -191,7 +184,7 @@ namespace LabWork1
             }
         }
 
-        public static BigInt Div(BigInt a1, BigInt b) // ИСПРАВЛЕНО деление нацело, округляет в левую сторону(-11)/10 = -2  (-10)/10 = -1
+        public static BigInt Div(BigInt a1, BigInt b) // деление нацело
         {
             var a = new BigInt('+', new List<int>(a1.number));
             a.DeleteNuls();b.DeleteNuls();
@@ -239,6 +232,7 @@ namespace LabWork1
                 return result;
             }
         }
+
         public BigInt MultOnDigit(int n) // умножение на цифру 0, ...,9
         {
             var sign = n;
@@ -262,14 +256,14 @@ namespace LabWork1
                 return -result;
 
         }
+
         public BigInt MultOn10(int n) // умножение на 10^n
         {
             this.number.AddRange(new int[n]);
             return this;
         }
 
-        //-------------------------------
-        public static BigInt operator +(BigInt V1, BigInt V2)  // *this + V
+        public static BigInt operator +(BigInt V1, BigInt V2)  // v1 + v2
         {
             if (V1.sign == '+' && V2.sign == '+')
                 return Addition(V1, V2);
@@ -284,7 +278,8 @@ namespace LabWork1
                 return r;
             }  
         }
-        public static BigInt operator -(BigInt V1, BigInt V2)  // *this - V
+
+        public static BigInt operator -(BigInt V1, BigInt V2)  // v1 - v2
         {
             if (V1 >= V2)
             {
@@ -295,7 +290,8 @@ namespace LabWork1
                 return -Reduce(V2, V1);
             }
         }
-        public static BigInt operator *(BigInt V1, BigInt V2)  // *this * V
+
+        public static BigInt operator *(BigInt V1, BigInt V2)  // v1 * v2
         {
             V1.DeleteNuls(); V2.DeleteNuls();
             var result = new BigInt();
@@ -327,8 +323,8 @@ namespace LabWork1
                 res *= this;
             return res;
         }
-                                             //---------------------------------
-        public static BigInt operator -(BigInt obj)   // унарный минус  -V
+                                             
+        public static BigInt operator -(BigInt obj)   // унарный минус  -obj
         {
             return obj.sign == '+'? new BigInt('-', obj.number) : new BigInt('+', obj.number);
         }
@@ -369,14 +365,31 @@ namespace LabWork1
             }
         }
 
-        public static BigInt FindModInverse(BigInt a, BigInt n)//computes the inverse of a modulo n
+        public bool IsNumSimple()//проверяет, является ли число простым
         {
+            if (this < new BigInt("2"))
+                return false;
+
+            if (this == new BigInt("2"))
+                return true;
+
+            for (var i = new BigInt("2"); i < this; i += new BigInt("1"))
+            {
+                if (this % i == Zero)
+                    return false;
+            }
+            return true;
+        }
+
+        public static BigInt FindModInverse(BigInt a, BigInt n)//вычисляет обратное по модулю
+        {
+            if (a + One == n) return a;
             var x = new BigInt(); var y = new BigInt();
             ExtendedEuclid(a, n, out x, out y);
             return (x % n + n) % n;
         }
 
-        private static BigInt ExtendedEuclid(BigInt a, BigInt b, out BigInt x, out BigInt y)
+        private static BigInt ExtendedEuclid(BigInt a, BigInt b, out BigInt x, out BigInt y)//расширенный алгоритм Евклида
         {
             
             if (a == new BigInt())

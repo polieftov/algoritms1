@@ -58,6 +58,8 @@ namespace LabWork1
             var h = new BigInt("+123456");
             var i = new BigInt("-987654");
             var j = new BigInt("100000");
+            var g1 = new BigInt("28");
+            var j1 = new BigInt("4");
 
             var t8 = g * h;//121931851853376
             var t9 = g * i;//-975460740752934
@@ -67,6 +69,7 @@ namespace LabWork1
             var t13 = h % g;//123456
             var t14 = g / j;//9876
             var t15 = g % j;//54321
+            var t16 = g1 % j1;//0
 
             if (t8.sign != '+' || !Enumerable.SequenceEqual(t8.number, new List<int> { 1, 2, 1, 9, 3, 1, 8, 5, 1, 8, 5, 3, 3, 7, 6 }))
                 Console.WriteLine("* / % 1 failed");
@@ -84,6 +87,8 @@ namespace LabWork1
                 Console.WriteLine("* / % 7 failed");
             if (t15.sign != '+' || !Enumerable.SequenceEqual(t15.number, new List<int> { 5, 4, 3, 2, 1 }))
                 Console.WriteLine("* / % 8 failed");
+            if (t16.sign != '+' || !Enumerable.SequenceEqual(t16.number, new List<int> { 0 }))
+                Console.WriteLine("* / % 9 failed");
 
             //Compare Test
             if (!(g > h))
@@ -105,12 +110,12 @@ namespace LabWork1
             var m = new BigInt("5");
             var n = new BigInt("12");
 
-            var t16 = BigInt.FindModInverse(k, l);//17
-            var t17 = BigInt.FindModInverse(m, n);//7
+            var t17 = BigInt.FindModInverse(k, l);//9
+            var t18 = BigInt.FindModInverse(m, n);//5
             
-            if (t16 != new BigInt("17"))
+            if (t17 != new BigInt("9"))
                 Console.WriteLine("Mod Inverse 1 failed");
-            if (t17 != new BigInt("7"))
+            if (t18 != new BigInt("5"))
                 Console.WriteLine("Mod Inverse 2 failed");
 
             
@@ -118,10 +123,25 @@ namespace LabWork1
             var o = new BigInt("13");
             var p = new BigInt("7");
 
-            var t18 = new RSA(o, p, "text");
+            var t19 = new RSA(o, p, "text");
 
-            if (t18.GetAnswer() != "TEXT")
+            if (t19.GetAnswer() != "TEXT")
                 Console.WriteLine("RSA TEST 1 failed");
+
+            //IsSimple TEST
+            var q = new BigInt("26");
+            var r = new BigInt("59");
+            var s = new BigInt("103");
+            var t = new BigInt("200");
+
+            if (q.IsNumSimple())
+                Console.WriteLine("IsSimple TEST 1 failed");
+            if (!r.IsNumSimple())
+                Console.WriteLine("IsSimple TEST 1 failed");
+            if (!s.IsNumSimple())
+                Console.WriteLine("IsSimple TEST 1 failed");
+            if (t.IsNumSimple())
+                Console.WriteLine("IsSimple TEST 1 failed");
         }
 
         static void Main()
@@ -130,7 +150,7 @@ namespace LabWork1
             var text = "";
             Test();
             var xDoc = new XmlDocument();
-            xDoc.Load("C:\\Users\\Номе\\Desktop\\Алгоритмы\\lab.xml");
+            xDoc.Load("lab.xml");
             var xRoot = xDoc.DocumentElement;
             foreach (XmlNode xNode in xRoot)
             {

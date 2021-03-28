@@ -20,7 +20,7 @@ namespace LabWork1
         public RSA(BigInt p, BigInt q, string s)
         {
             input = s.ToUpper();
-            if (IsNumSimple(p) && IsNumSimple(q))
+            if (p.IsNumSimple() && q.IsNumSimple())
             {
                 n = p * q;
                 m = ((p - BigInt.One) * (q - BigInt.One));
@@ -39,22 +39,6 @@ namespace LabWork1
             return decodeRes;
         }
 
-        private bool IsNumSimple(BigInt num)
-        {
-            if (num < new BigInt("2"))
-                return false;
-
-            if (num == new BigInt("2"))
-                return true;
-
-            for (var i = new BigInt("2"); i < num; i += new BigInt("1"))
-            {
-                if (num % i == new BigInt())
-                    return false;
-            }
-            return true;
-        }
-
         private string RSADecode(List<string> encodeRes, BigInt d, BigInt n)
         {
             var res = "";
@@ -66,7 +50,7 @@ namespace LabWork1
                 b = b.Pow(d);
 
                 b = b % n;
-
+                
                 var index = Convert.ToInt32(b.ToString());
 
                 res += characters[index].ToString();
